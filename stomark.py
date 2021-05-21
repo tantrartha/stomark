@@ -61,7 +61,10 @@ for name,data in custom_data.items():
     ]
     pt.add_row(row)
 
-sender = sys.argv[1]
-receiver = sys.argv[2]
-yag = yagmail.SMTP(user=sender)
-yag.send(to=receiver, subject=end, contents=pt.get_html_string())
+print(pt)
+
+if len(sys.argv) == 3:
+    sender = sys.argv[1]
+    receiver = sys.argv[2]
+    yag = yagmail.SMTP(user=sender)
+    yag.send(to=receiver, subject=end, contents=pt.get_html_string(format=True))
