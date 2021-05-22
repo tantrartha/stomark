@@ -63,8 +63,17 @@ for name,data in custom_data.items():
 
 print(pt)
 
+mail_body = '''
+{1}
+</br>
+<h3>Legend:</h3>
+<b>Today>DMA</b>       -> Is yesterday's close price greater than last {0} days average close price?
+<b>Days>DMA</b>        -> In the last {0} days, number of days the company's close price is greater than last {0} days average close price.
+<b>Last10Days>DMA</b>  -> In the last 10 days, number of days the company's close price is greater than last {0} average close price.
+'''.format(DMA_DAYS, pt.get_html_string(format=True))
+
 if len(sys.argv) == 3:
     sender = sys.argv[1]
-    receiver = sys.argv[2]
-    yag = yagmail.SMTP(user=sender)
-    yag.send(to=receiver, subject=end, contents=pt.get_html_string(format=True))
+    receiver = sys.argv[2] if ',' not in sys.argv[2] else sys.argv[2].split(',')
+    yag = yagmail.SMTP(sender)
+    yag.send(to=receiver, subject=end, contents=mail_body)
